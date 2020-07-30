@@ -31,13 +31,12 @@ import ca.gauntlet.TheGauntletConfig;
 import ca.gauntlet.TheGauntletPlugin;
 import ca.gauntlet.entity.Demiboss;
 import ca.gauntlet.entity.Resource;
-import java.awt.BasicStroke;
+import static ca.gauntlet.overlay.Utility.drawOutlineAndFill;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Shape;
-import java.awt.Stroke;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import net.runelite.api.Client;
@@ -259,21 +258,5 @@ public class SceneOverlay extends Overlay
 		}
 
 		return localPoint.distanceTo(playerLocation) >= maxDistance;
-	}
-
-	private static void drawOutlineAndFill(final Graphics2D graphics2D, final Color outlineColor, final Color fillColor, final float strokeWidth, final Shape shape)
-	{
-		final Color originalColor = graphics2D.getColor();
-		final Stroke originalStroke = graphics2D.getStroke();
-
-		graphics2D.setStroke(new BasicStroke(strokeWidth));
-		graphics2D.setColor(outlineColor);
-		graphics2D.draw(shape);
-
-		graphics2D.setColor(fillColor);
-		graphics2D.fill(shape);
-
-		graphics2D.setColor(originalColor);
-		graphics2D.setStroke(originalStroke);
 	}
 }

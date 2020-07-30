@@ -22,6 +22,10 @@ Supports both normal and corrupted versions.
 
 ![chat](/images/chat.png)
 
+* Configurable outline colors for Hunllef and Tornadoes
+
+![hunllef](/images/hunllef.png)
+
 * Outline colors for demi-bosses.
 
 ![demiboss](/images/demiboss.png)

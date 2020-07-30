@@ -32,6 +32,7 @@ package ca.gauntlet;
 
 import ca.gauntlet.entity.Demiboss;
 import ca.gauntlet.entity.Resource;
+import ca.gauntlet.overlay.HunllefOverlay;
 import ca.gauntlet.overlay.SceneOverlay;
 import ca.gauntlet.overlay.TimerOverlay;
 import ca.gauntlet.resource.ResourceManager;
@@ -50,6 +51,7 @@ import net.runelite.api.GameObject;
 import net.runelite.api.GameState;
 import net.runelite.api.NPC;
 import net.runelite.api.NpcID;
+import net.runelite.api.NullNpcID;
 import net.runelite.api.ObjectID;
 import net.runelite.api.events.ActorDeath;
 import net.runelite.api.events.ChatMessage;
@@ -81,6 +83,15 @@ public class TheGauntletPlugin extends Plugin
 {
 	private static final int VARBIT_GAUNTLET_ENTERED = 9178;
 	private static final int VARBIT_GAUNTLET_HUNLLEF_ROOM_ENTERED = 9177;
+
+	private static final Set<Integer> HUNLLEF_IDS = ImmutableSet.of(
+		NpcID.CRYSTALLINE_HUNLLEF, NpcID.CRYSTALLINE_HUNLLEF_9022,
+		NpcID.CRYSTALLINE_HUNLLEF_9023, NpcID.CRYSTALLINE_HUNLLEF_9024,
+		NpcID.CORRUPTED_HUNLLEF, NpcID.CORRUPTED_HUNLLEF_9036,
+		NpcID.CORRUPTED_HUNLLEF_9037, NpcID.CORRUPTED_HUNLLEF_9038
+	);
+
+	private static final Set<Integer> TORNADO_IDS = ImmutableSet.of(NullNpcID.NULL_9025, NullNpcID.NULL_9039);
 
 	private static final Set<Integer> DEMIBOSS_IDS = ImmutableSet.of(
 		NpcID.CRYSTALLINE_BEAR, NpcID.CORRUPTED_BEAR,
@@ -138,11 +149,17 @@ public class TheGauntletPlugin extends Plugin
 	@Inject
 	private SceneOverlay sceneOverlay;
 
+	@Inject
+	private HunllefOverlay hunllefOverlay;
+
 	@Getter
 	private final Set<Resource> resources = new HashSet<>();
 
 	@Getter
 	private final Set<GameObject> utilities = new HashSet<>();
+
+	@Getter
+	private final Set<NPC> tornadoes = new HashSet<>();
 
 	@Getter
 	private final Set<Demiboss> demibosses = new HashSet<>();
@@ -153,7 +170,10 @@ public class TheGauntletPlugin extends Plugin
 	@Getter
 	private final Set<NPC> weakNpcs = new HashSet<>();
 
-	private final List<Set<?>> entitySets = Arrays.asList(resources, utilities, demibosses, strongNpcs, weakNpcs);
+	private final List<Set<?>> entitySets = Arrays.asList(resources, utilities, tornadoes, demibosses, strongNpcs, weakNpcs);
+
+	@Getter
+	private NPC hunllef;
 
 	private boolean inGauntlet;
 	private boolean inHunllef;
@@ -172,9 +192,12 @@ public class TheGauntletPlugin extends Plugin
 	{
 		overlayManager.remove(sceneOverlay);
 		overlayManager.remove(timerOverlay);
+		overlayManager.remove(hunllefOverlay);
 
 		inGauntlet = false;
 		inHunllef = false;
+
+		hunllef = null;
 
 		timerOverlay.reset();
 		resourceManager.reset();
@@ -350,7 +373,7 @@ public class TheGauntletPlugin extends Plugin
 	@Subscribe
 	private void onNpcSpawned(final NpcSpawned event)
 	{
-		if (!inGauntlet || inHunllef)
+		if (!inGauntlet)
 		{
 			return;
 		}
@@ -359,7 +382,15 @@ public class TheGauntletPlugin extends Plugin
 
 		final int id = npc.getId();
 
-		if (DEMIBOSS_IDS.contains(id))
+		if (HUNLLEF_IDS.contains(id))
+		{
+			hunllef = npc;
+		}
+		else if (TORNADO_IDS.contains(id))
+		{
+			tornadoes.add(npc);
+		}
+		else if (DEMIBOSS_IDS.contains(id))
 		{
 			demibosses.add(new Demiboss(npc));
 		}
@@ -376,7 +407,7 @@ public class TheGauntletPlugin extends Plugin
 	@Subscribe
 	private void onNpcDespawned(final NpcDespawned event)
 	{
-		if (!inGauntlet || inHunllef)
+		if (!inGauntlet)
 		{
 			return;
 		}
@@ -385,7 +416,15 @@ public class TheGauntletPlugin extends Plugin
 
 		final int id = npc.getId();
 
-		if (DEMIBOSS_IDS.contains(id))
+		if (HUNLLEF_IDS.contains(id))
+		{
+			hunllef = null;
+		}
+		else if (TORNADO_IDS.contains(id))
+		{
+			tornadoes.removeIf(t -> t == npc);
+		}
+		else if (DEMIBOSS_IDS.contains(id))
 		{
 			demibosses.removeIf(d -> d.getNpc() == npc);
 		}
@@ -430,6 +469,7 @@ public class TheGauntletPlugin extends Plugin
 		resourceManager.reset();
 
 		overlayManager.remove(sceneOverlay);
+		overlayManager.add(hunllefOverlay);
 	}
 
 	private boolean isGauntletVarbitSet()

@@ -63,9 +63,17 @@ public interface TheGauntletConfig extends Config
 	String utilitiesSection = "utilities";
 
 	@ConfigSection(
+		name = "Hunllef",
+		description = "Hunllef section.",
+		position = 2,
+		closedByDefault = true
+	)
+	String hunllefSection = "hunllef";
+
+	@ConfigSection(
 		name = "Npcs",
 		description = "Npcs section.",
-		position = 2,
+		position = 3,
 		closedByDefault = true
 	)
 	String npcsSection = "npcs";
@@ -73,7 +81,7 @@ public interface TheGauntletConfig extends Config
 	@ConfigSection(
 		name = "Timer",
 		description = "Timer section.",
-		position = 3,
+		position = 4,
 		closedByDefault = true
 	)
 	String timerSection = "timer";
@@ -81,7 +89,7 @@ public interface TheGauntletConfig extends Config
 	@ConfigSection(
 		name = "Other",
 		description = "Other section.",
-		position = 4,
+		position = 5,
 		closedByDefault = true
 	)
 	String otherSection = "other";
@@ -334,6 +342,118 @@ public interface TheGauntletConfig extends Config
 	default Color utilitiesOutlineColor()
 	{
 		return Color.MAGENTA;
+	}
+
+	// Hunllef Section
+
+	@ConfigItem(
+		name = "Outline Hunllef tile",
+		description = "Outline the Hunllef's tile.",
+		position = 0,
+		keyName = "hunllefOutlineTile",
+		section = "hunllef"
+	)
+	default boolean hunllefOutlineTile()
+	{
+		return false;
+	}
+
+	@Range(
+		min = 1,
+		max = 8
+	)
+	@ConfigItem(
+		name = "Tile outline width",
+		description = "Change the width of the Hunllef's tile outline.",
+		position = 1,
+		keyName = "hunllefTileOutlineWidth",
+		section = "hunllef"
+	)
+	@Units(Units.PIXELS)
+	default int hunllefTileOutlineWidth()
+	{
+		return 1;
+	}
+
+	@Alpha
+	@ConfigItem(
+		name = "Tile outline color",
+		description = "Change the outline color of the Hunllef's tile.",
+		position = 2,
+		keyName = "hunllefOutlineColor",
+		section = "hunllef"
+	)
+	default Color hunllefOutlineColor()
+	{
+		return Color.WHITE;
+	}
+
+	@Alpha
+	@ConfigItem(
+		name = "Tile fill color",
+		description = "Change the fill color of the Hunllef's tile.",
+		position = 3,
+		keyName = "hunllefFillColor",
+		section = "hunllef"
+	)
+	default Color hunllefFillColor()
+	{
+		return new Color(255, 255, 255, 0);
+	}
+
+	@ConfigItem(
+		name = "Outline tornado tile",
+		description = "Outline the tiles of tornadoes.",
+		position = 4,
+		keyName = "tornadoTileOutline",
+		section = "hunllef"
+	)
+	default boolean tornadoTileOutline()
+	{
+		return false;
+	}
+
+	@Range(
+		min = 1,
+		max = 8
+	)
+	@ConfigItem(
+		name = "Tile outline width",
+		description = "Change tile outline width of tornadoes.",
+		position = 5,
+		keyName = "tornadoTileOutlineWidth",
+		section = "hunllef"
+	)
+	@Units(Units.PIXELS)
+	default int tornadoTileOutlineWidth()
+	{
+		return 1;
+	}
+
+	@Alpha
+	@ConfigItem(
+		name = "Tile outline color",
+		description = "Color to outline the tile of a tornado.",
+		position = 6,
+		keyName = "tornadoOutlineColor",
+		section = "hunllef"
+	)
+	default Color tornadoOutlineColor()
+	{
+		return Color.YELLOW;
+	}
+
+	@Alpha
+	@ConfigItem(
+		name = "Tile fill color",
+		description = "Color to fill the tile of a tornado.",
+		position = 7,
+		keyName = "tornadoFillColor",
+		section = "hunllef"
+	)
+	default Color tornadoFillColor()
+	{
+		return new Color(255, 255, 0, 50);
 	}
 
 	// Npcs Section
