@@ -35,6 +35,7 @@ import ca.gauntlet.entity.Resource;
 import ca.gauntlet.overlay.SceneOverlay;
 import ca.gauntlet.overlay.TimerOverlay;
 import ca.gauntlet.resource.ResourceManager;
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -81,25 +82,25 @@ public class TheGauntletPlugin extends Plugin
 	private static final int VARBIT_GAUNTLET_ENTERED = 9178;
 	private static final int VARBIT_GAUNTLET_HUNLLEF_ROOM_ENTERED = 9177;
 
-	private static final Set<Integer> DEMIBOSS_IDS = Set.of(
+	private static final Set<Integer> DEMIBOSS_IDS = ImmutableSet.of(
 		NpcID.CRYSTALLINE_BEAR, NpcID.CORRUPTED_BEAR,
 		NpcID.CRYSTALLINE_DARK_BEAST, NpcID.CORRUPTED_DARK_BEAST,
 		NpcID.CRYSTALLINE_DRAGON, NpcID.CORRUPTED_DRAGON
 	);
 
-	private static final Set<Integer> STRONG_NPC_IDS = Set.of(
+	private static final Set<Integer> STRONG_NPC_IDS = ImmutableSet.of(
 		NpcID.CRYSTALLINE_SCORPION, NpcID.CORRUPTED_SCORPION,
 		NpcID.CRYSTALLINE_UNICORN, NpcID.CORRUPTED_UNICORN,
 		NpcID.CRYSTALLINE_WOLF, NpcID.CORRUPTED_WOLF
 	);
 
-	private static final Set<Integer> WEAK_NPC_IDS = Set.of(
+	private static final Set<Integer> WEAK_NPC_IDS = ImmutableSet.of(
 		NpcID.CRYSTALLINE_BAT, NpcID.CORRUPTED_BAT,
 		NpcID.CRYSTALLINE_RAT, NpcID.CORRUPTED_RAT,
 		NpcID.CRYSTALLINE_SPIDER, NpcID.CORRUPTED_SPIDER
 	);
 
-	private static final Set<Integer> RESOURCE_IDS = Set.of(
+	private static final Set<Integer> RESOURCE_IDS = ImmutableSet.of(
 		ObjectID.CRYSTAL_DEPOSIT, ObjectID.CORRUPT_DEPOSIT,
 		ObjectID.PHREN_ROOTS, ObjectID.PHREN_ROOTS_36066,
 		ObjectID.FISHING_SPOT_36068, ObjectID.FISHING_SPOT_35971,
@@ -107,7 +108,7 @@ public class TheGauntletPlugin extends Plugin
 		ObjectID.LINUM_TIRINUM, ObjectID.LINUM_TIRINUM_36072
 	);
 
-	private static final Set<Integer> UTILITY_IDS = Set.of(
+	private static final Set<Integer> UTILITY_IDS = ImmutableSet.of(
 		ObjectID.SINGING_BOWL_35966, ObjectID.SINGING_BOWL_36063,
 		ObjectID.RANGE_35980, ObjectID.RANGE_36077,
 		ObjectID.WATER_PUMP_35981, ObjectID.WATER_PUMP_36078

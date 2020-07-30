@@ -27,6 +27,7 @@
 
 package ca.gauntlet.entity;
 
+import com.google.common.collect.ImmutableSet;
 import java.awt.Color;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -53,9 +54,9 @@ public class Demiboss
 	@AllArgsConstructor
 	public enum Type
 	{
-		BEAR(Set.of(NpcID.CRYSTALLINE_BEAR, NpcID.CORRUPTED_BEAR), Color.RED),
-		DARK_BEAST(Set.of(NpcID.CRYSTALLINE_DARK_BEAST, NpcID.CORRUPTED_DARK_BEAST), Color.GREEN),
-		DRAGON(Set.of(NpcID.CRYSTALLINE_DRAGON, NpcID.CORRUPTED_DRAGON), Color.BLUE);
+		BEAR(ImmutableSet.of(NpcID.CRYSTALLINE_BEAR, NpcID.CORRUPTED_BEAR), Color.RED),
+		DARK_BEAST(ImmutableSet.of(NpcID.CRYSTALLINE_DARK_BEAST, NpcID.CORRUPTED_DARK_BEAST), Color.GREEN),
+		DRAGON(ImmutableSet.of(NpcID.CRYSTALLINE_DRAGON, NpcID.CORRUPTED_DRAGON), Color.BLUE);
 
 		private final Set<Integer> ids;
 
