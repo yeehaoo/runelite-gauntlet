@@ -1,6 +1,7 @@
 /*
  * BSD 2-Clause License
  *
+ * Copyright (c) 2021, yeehaoo <https://github.com/yeehaoo>
  * Copyright (c) 2020, dutta64 <https://github.com/dutta64>
  * Copyright (c) 2019, kThisIsCvpv <https://github.com/kThisIsCvpv>
  * Copyright (c) 2019, ganom <https://github.com/Ganom>
@@ -30,38 +31,12 @@
 
 package ca.gauntlet;
 
-import ca.gauntlet.entity.Demiboss;
-import ca.gauntlet.entity.Resource;
-import ca.gauntlet.overlay.HunllefOverlay;
-import ca.gauntlet.overlay.SceneOverlay;
-import ca.gauntlet.overlay.TimerOverlay;
-import ca.gauntlet.resource.ResourceManager;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.inject.Inject;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
-import net.runelite.api.Client;
-import net.runelite.api.GameObject;
-import net.runelite.api.GameState;
-import net.runelite.api.NPC;
-import net.runelite.api.NpcID;
-import net.runelite.api.NullNpcID;
-import net.runelite.api.ObjectID;
-import net.runelite.api.events.ActorDeath;
-import net.runelite.api.events.ChatMessage;
-import net.runelite.api.events.GameObjectDespawned;
-import net.runelite.api.events.GameObjectSpawned;
-import net.runelite.api.events.GameStateChanged;
-import net.runelite.api.events.NpcDespawned;
-import net.runelite.api.events.NpcSpawned;
-import net.runelite.api.events.VarbitChanged;
-import net.runelite.api.events.WidgetLoaded;
+import net.runelite.api.*;
+import net.runelite.api.events.*;
 import net.runelite.api.widgets.WidgetID;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -70,7 +45,19 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.gauntlet.entity.Demiboss;
+import net.runelite.client.plugins.gauntlet.entity.Resource;
+import net.runelite.client.plugins.gauntlet.overlay.HunllefOverlay;
+import net.runelite.client.plugins.gauntlet.overlay.SceneOverlay;
+import net.runelite.client.plugins.gauntlet.overlay.TimerOverlay;
+import net.runelite.client.plugins.gauntlet.resource.ResourceManager;
 import net.runelite.client.ui.overlay.OverlayManager;
+
+import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @PluginDescriptor(
@@ -177,6 +164,10 @@ public class TheGauntletPlugin extends Plugin
 
 	private boolean inGauntlet;
 	private boolean inHunllef;
+
+	public boolean isRanged;
+	private int counter = 0;
+	private int counter2 = 0;
 
 	@Override
 	protected void startUp()
@@ -405,6 +396,41 @@ public class TheGauntletPlugin extends Plugin
 	}
 
 	@Subscribe
+	private void onHitsplatApplied(final HitsplatApplied event)
+	{
+		if (!inGauntlet || !inHunllef)
+		{
+			return;
+		}
+
+		final Actor actor = event.getActor();
+
+		if(actor == client.getLocalPlayer())
+		{
+			counter++;
+			System.out.println(counter);
+			if (counter == 4)
+			{
+				isRanged = !isRanged;
+				counter = 0;
+			}
+		}
+		if (actor ==  hunllef)
+		{
+			counter2++;
+			if(counter2 == 6)
+			{
+				System.out.println("Change attack style");
+				counter2 = 0;
+			}
+		}
+		else {
+			return;
+		}
+
+	}
+
+	@Subscribe
 	private void onNpcDespawned(final NpcDespawned event)
 	{
 		if (!inGauntlet)
@@ -464,12 +490,16 @@ public class TheGauntletPlugin extends Plugin
 	private void initHunllef()
 	{
 		inHunllef = true;
+		isRanged = true;
+		counter = 0;
+		counter2 = 0;
 
 		timerOverlay.setHunllefStart();
 		resourceManager.reset();
 
 		overlayManager.remove(sceneOverlay);
 		overlayManager.add(hunllefOverlay);
+		System.out.println("hunleff start");
 	}
 
 	private boolean isGauntletVarbitSet()
