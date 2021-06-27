@@ -1,51 +1,15 @@
-# Description
+27 June 2021
 
-An all-in-one plugin for The Gauntlet.
+Editted files: HunlleffOverlay.java and TheGauntletPlugin.java
 
-Supports both normal and corrupted versions.
+Disclaimer: Use of this plugin is obviously against game rules, and up to the user's discretion. The purpose of this project is for experimentation with runelite plugin development. USE AT YOUR OWN RISK.
 
-## Features
+What I've done:
 
-* Provides easily identifiable icons and tile overlays for resource nodes.
+1. Added outline changes showing attack style of the boss. Green = ranged, blue = magic
 
-![resource](/images/resource.png)
+TODO:
 
-* Provides custom resource infobox counters.
+1. Instead of using the hitsplat event, use animation event so that when player gets hit by lightning, it doesn't count as the boss's attacks.
 
-![counter](/images/counter.png)
-
-![settings](/images/settings.png)
-
-* A timer for preparation stage and total duration.
-
-![timer](/images/timer.png)
-
-![chat](/images/chat.png)
-
-* Configurable outline colors for Hunllef and Tornadoes
-
-![hunllef](/images/hunllef.png)
-
-* Outline colors for demi-bosses.
-
-![demiboss](/images/demiboss.png)
-
-* Configurable outline colors for fodder NPCs
-
-![weak](/images/weak.png)
-
-![strong](/images/strong.png)
-
-* Configurable outline colors for starting-room utilities
-
-![utilities](/images/utilities.png)
-
-* Configurable render distance for all outlines/overlays.
-
-![render](/images/render.png)
-
-## Contribute
-
-Feature and pull requests are welcome.
-
-*In the event that this plugin is no longer being maintained, please create an issue to request its ownership transferred.*
+2. Done halfway: implement changing of player attack styles to suit boss's protection prayers. Counting is done and is somewhat accurate but display is not implemented, other than a simple "system.out.println".
