@@ -1,6 +1,6 @@
 27 June 2021
 
-Editted files: HunlleffOverlay.java and TheGauntletPlugin.java
+Edited files: HunlleffOverlay.java and TheGauntletPlugin.java
 
 Disclaimer: Use of this plugin is obviously against game rules, and up to the user's discretion. The purpose of this project is for experimentation with runelite plugin development. USE AT YOUR OWN RISK.
 
