@@ -1,6 +1,7 @@
 /*
  * BSD 2-Clause License
  *
+ * Copyright (c) 2021, yeehaoo <https://github.com/yeehaoo>
  * Copyright (c) 2020, dutta64 <https://github.com/dutta64>
  * Copyright (c) 2019, kThisIsCvpv <https://github.com/kThisIsCvpv>
  * Copyright (c) 2019, ganom <https://github.com/Ganom>
@@ -30,21 +31,22 @@
 
 package ca.gauntlet.overlay;
 
-import ca.gauntlet.TheGauntletConfig;
-import ca.gauntlet.TheGauntletPlugin;
-import static ca.gauntlet.overlay.Utility.drawOutlineAndFill;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
-import javax.inject.Inject;
+
 import net.runelite.api.Client;
 import net.runelite.api.NPC;
 import net.runelite.api.NPCComposition;
 import net.runelite.api.Perspective;
+import net.runelite.client.plugins.gauntlet.TheGauntletConfig;
+import net.runelite.client.plugins.gauntlet.TheGauntletPlugin;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayPriority;
+
+import javax.inject.Inject;
+import java.awt.*;
+
+import static net.runelite.client.plugins.gauntlet.overlay.Utility.drawOutlineAndFill;
 
 public class HunllefOverlay extends Overlay
 {
@@ -72,6 +74,15 @@ public class HunllefOverlay extends Overlay
 	{
 		renderHunllef(graphics2D);
 		renderTornadoes(graphics2D);
+
+		boolean isRanged = plugin.isRanged;
+
+		if(isRanged) {
+			styleChange(graphics2D, true);
+		}
+		else{
+			styleChange(graphics2D, false);
+		}
 
 		return null;
 	}
@@ -102,6 +113,23 @@ public class HunllefOverlay extends Overlay
 
 		drawOutlineAndFill(graphics2D, config.hunllefOutlineColor(), config.hunllefFillColor(),
 			config.hunllefTileOutlineWidth(), polygon);
+	}
+
+	private void styleChange(final Graphics2D graphics2D, boolean isRanged) {
+
+		final NPC hunllef = plugin.getHunllef();
+		final NPCComposition npcComposition = hunllef.getComposition();
+		final Polygon polygon = Perspective.getCanvasTileAreaPoly(client, hunllef.getLocalLocation(),
+				npcComposition.getSize());
+
+		if(isRanged) {
+			drawOutlineAndFill(graphics2D, Color.GREEN, config.hunllefFillColor(),
+					config.hunllefTileOutlineWidth(), polygon);
+		}
+		else {
+			drawOutlineAndFill(graphics2D, Color.BLUE, config.hunllefFillColor(),
+					config.hunllefTileOutlineWidth(), polygon);
+		}
 	}
 
 	private void renderTornadoes(final Graphics2D graphics2D)
