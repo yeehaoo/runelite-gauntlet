@@ -1,7 +1,6 @@
 /*
  * BSD 2-Clause License
  *
- * Copyright (c) 2021, yeehaoo <https://github.com/yeehaoo>
  * Copyright (c) 2020, dutta64 <https://github.com/dutta64>
  * Copyright (c) 2019, kThisIsCvpv <https://github.com/kThisIsCvpv>
  * Copyright (c) 2019, ganom <https://github.com/Ganom>
@@ -29,8 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package ca.gauntlet.overlay;
-
+package net.runelite.client.plugins.gauntlet.overlay;
 
 import net.runelite.api.Client;
 import net.runelite.api.NPC;

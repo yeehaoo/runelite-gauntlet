@@ -1,7 +1,6 @@
 /*
  * BSD 2-Clause License
  *
- * Copyright (c) 2021, yeehaoo <https://github.com/yeehaoo>
  * Copyright (c) 2020, dutta64 <https://github.com/dutta64>
  * Copyright (c) 2019, kThisIsCvpv <https://github.com/kThisIsCvpv>
  * Copyright (c) 2019, ganom <https://github.com/Ganom>
@@ -29,7 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package ca.gauntlet;
+package net.runelite.client.plugins.gauntlet;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
@@ -61,7 +60,7 @@ import java.util.Set;
 
 @Slf4j
 @PluginDescriptor(
-	name = "The Gauntlet",
+	name = "The Gauntlet Enhanced",
 	description = "All-in-one plugin for The Gauntlet.",
 	tags = {"the", "gauntlet"},
 	enabledByDefault = false
@@ -166,7 +165,7 @@ public class TheGauntletPlugin extends Plugin
 	private boolean inHunllef;
 
 	public boolean isRanged;
-	private int counter = 0;
+	private int hunllefcnt = 0;
 	private int counter2 = 0;
 
 	@Override
@@ -395,6 +394,7 @@ public class TheGauntletPlugin extends Plugin
 		}
 	}
 
+	/*
 	@Subscribe
 	private void onHitsplatApplied(final HitsplatApplied event)
 	{
@@ -426,6 +426,29 @@ public class TheGauntletPlugin extends Plugin
 		}
 		else {
 			return;
+		}
+
+	}
+	 */
+
+	@Subscribe
+	private void onGameTick(final GameTick event)
+	{
+		if (!inHunllef)
+		{
+			return;
+		}
+		hunllef = client.getNpcs().get(0);
+		if (hunllef.getAnimation() == 8419)
+		{
+			hunllefcnt++;
+
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE,"test",""+ hunllefcnt,"testsender");
+		}
+		if(hunllefcnt == 4)
+		{
+			isRanged = !isRanged;
+			hunllefcnt = 0;
 		}
 
 	}
@@ -491,7 +514,7 @@ public class TheGauntletPlugin extends Plugin
 	{
 		inHunllef = true;
 		isRanged = true;
-		counter = 0;
+		hunllefcnt = 0;
 		counter2 = 0;
 
 		timerOverlay.setHunllefStart();
