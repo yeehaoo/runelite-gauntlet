@@ -1,6 +1,7 @@
 /*
  * BSD 2-Clause License
- *
+ * 
+ * Copyright (c) 2020, yeehaoo <https://github.com/yeehaoo>
  * Copyright (c) 2020, dutta64 <https://github.com/dutta64>
  * Copyright (c) 2019, kThisIsCvpv <https://github.com/kThisIsCvpv>
  * Copyright (c) 2019, ganom <https://github.com/Ganom>
