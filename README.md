@@ -15,3 +15,5 @@ TODO:
 2. Done halfway: implement changing of player attack styles to suit boss's protection prayers. Counting is done and is somewhat accurate but display is not implemented, other than a simple "system.out.println".
 
 29 June 2021: Changed counting from hitsplat-based to animation based. Counting of hunllef attacks is now almost completely accurate, however there is a bug where if the ticks do not sync correctly, counting of attacks will be off by 1-2. Also added chatbox message for attack counts, so the player can verify if it is synchronised correctly.
+
+30 June 2021: Solved the hunllef attack counting problem with animation buffers! Also realised that summoning of tornadoes counts as 1 attack. Counting of attacks, and hence prayer indicator, is now completely accurate. Changing of player attack styles is almost done as well. Just needs testing.
