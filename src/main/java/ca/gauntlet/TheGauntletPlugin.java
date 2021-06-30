@@ -167,7 +167,8 @@ public class TheGauntletPlugin extends Plugin
 
 	public boolean isRanged;
 	private int hunllefcnt = 0;
-	private int counter2 = 0;
+	private int playerAtkCnt = 0;
+	private int animBuffer[] = {0, 0};
 
 	@Override
 	protected void startUp()
@@ -395,7 +396,6 @@ public class TheGauntletPlugin extends Plugin
 		}
 	}
 
-	/*
 	@Subscribe
 	private void onHitsplatApplied(final HitsplatApplied event)
 	{
@@ -406,23 +406,13 @@ public class TheGauntletPlugin extends Plugin
 
 		final Actor actor = event.getActor();
 
-		if(actor == client.getLocalPlayer())
+		if (actor == hunllef)
 		{
-			counter++;
-			System.out.println(counter);
-			if (counter == 4)
+			playerAtkCnt++;
+			if(playerAtkCnt == 6)
 			{
-				isRanged = !isRanged;
-				counter = 0;
-			}
-		}
-		if (actor ==  hunllef)
-		{
-			counter2++;
-			if(counter2 == 6)
-			{
-				System.out.println("Change attack style");
-				counter2 = 0;
+				client.addChatMessage(ChatMessageType.BROADCAST,"test","switch weapon","testsender");
+				playerAtkCnt = 0;
 			}
 		}
 		else {
@@ -430,7 +420,6 @@ public class TheGauntletPlugin extends Plugin
 		}
 
 	}
-	 */
 
 	@Subscribe
 	private void onGameTick(final GameTick event)
@@ -440,17 +429,19 @@ public class TheGauntletPlugin extends Plugin
 			return;
 		}
 		hunllef = client.getNpcs().get(0);
-		if (hunllef.getAnimation() == 8419)
+		animBuffer[0] = animBuffer[1];
+		animBuffer[1] = hunllef.getAnimation();
+
+		if((hunllef.getAnimation() == 8418 && animBuffer[0] != animBuffer[1])||(hunllef.getAnimation() == 8419 && animBuffer[0] != animBuffer[1]))
 		{
 			hunllefcnt++;
+			if(hunllefcnt == 4)
+			{
+				isRanged = !isRanged;
+				hunllefcnt = 0;
+			}
+		}
 
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE,"test",""+ hunllefcnt,"testsender");
-		}
-		if(hunllefcnt == 4)
-		{
-			isRanged = !isRanged;
-			hunllefcnt = 0;
-		}
 
 	}
 
@@ -516,7 +507,7 @@ public class TheGauntletPlugin extends Plugin
 		inHunllef = true;
 		isRanged = true;
 		hunllefcnt = 0;
-		counter2 = 0;
+		playerAtkCnt = 0;
 
 		timerOverlay.setHunllefStart();
 		resourceManager.reset();
